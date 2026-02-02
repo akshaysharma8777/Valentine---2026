@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Valentine ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* PASSWORD SCREEN */
+#lockScreen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#lockScreen input {
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+}
+
+#lockScreen button {
+    margin-top: 10px;
+    padding: 10px 25px;
+    font-size: 18px;
+    border-radius: 20px;
+    border: none;
+    background: #fff;
+}
+
+#errorMsg {
+    color: white;
+    margin-top: 10px;
+}
+
+/* MUSIC */
+audio { display: none; }
+
+/* GALLERY */
+#gallery {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* IMAGE STYLE */
+.photo {
+    position: absolute;
+    width: 260px;
+    max-width: 80vw;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    opacity: 0.9;
+}
+
+/* QUESTION */
+#questionBox {
+    position: absolute;
+    bottom: 80px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    z-index: 3;
+}
+
+#questionBox h1 {
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px black;
+}
+
+/* BUTTONS */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 100px;   /* proper spacing */
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 20px;
+    border-radius: 25px;
+    border: none;
+}
+
+#yesBtn { background: #28a745; color: white; }
+#noBtn  { background: #dc3545; color: white; position: relative; }
+
+/* PROPOSAL SCREEN */
+#proposal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+#proposalContent {
+    text-align: center;
+    color: white;
+}
+
+#proposalContent img {
+    width: 280px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+/* ANIMATIONS */
+@keyframes diag1 { from { left:-30%; top:110%; } to { left:110%; top:-30%; } }
+@keyframes diag2 { from { left:110%; top:120%; } to { left:-40%; top:-40%; } }
+@keyframes diag3 { from { left:-30%; top:50%; } to { left:110%; top:0%; } }
+@keyframes diag4 { from { left:110%; top:60%; } to { left:-40%; top:10%; } }
+
+.firework {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: gold;
+    border-radius: 50%;
+    animation: boom 2s ease-out forwards;
+}
+
+@keyframes boom {
+    from { transform: scale(1); opacity: 1; }
+    to   { transform: scale(8); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD -->
+<div id="lockScreen">
+    <h2>Enter our secret ❤️</h2>
+    <input type="password" id="passwordInput" placeholder="Password">
+    <button onclick="unlock()">Unlock</button>
+    <div id="errorMsg"></div>
+</div>
+
+<!-- MUSIC -->
+<audio id="music" src="music.mp3" loop></audio>
+
+<!-- GALLERY -->
+<div id="gallery"></div>
+
+<!-- QUESTION -->
+<div id="questionBox">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div class="buttons">
+        <button id="yesBtn">YES ❤️</button>
+        <button id="noBtn">NO 💔</button>
+    </div>
+</div>
+
+<!-- PROPOSAL -->
+<div id="proposal">
+    <div id="proposalContent">
+        <img src="proposal.jpeg">
+        <h2>THANK YOU FOR BEING WITH ME,<br>BEING FOR ME,<br>ACCEPTING ME ❤️</h2>
+    </div>
+</div>
+
+<script>
+const PASSWORD = "Ayaansh"; // change this
+const images = [];
+for(let i=1;i<=20;i++) images.push(`photo${i}.jpeg`);
+
+const animations = ["diag1","diag2","diag3","diag4"];
+
+const gallery = document.getElementById("gallery");
+const music = document.getElementById("music");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const proposal = document.getElementById("proposal");
+
+let imgIndex = 0;
+
+function unlock(){
+    const val = document.getElementById("passwordInput").value;
+    if(val === PASSWORD){
+        document.getElementById("lockScreen").style.display="none";
+        music.play();
+        spawnImage();       // first image immediately
+        startGallery();    // then every 5 sec
+    } else {
+        document.getElementById("errorMsg").innerText="Wrong password 💔";
+    }
+}
+
+function startGallery(){
+    setInterval(spawnImage, 5000);
+}
+
+function spawnImage(){
+    if(imgIndex >= images.length) return;
+
+    const img = document.createElement("img");
+    img.src = images[imgIndex];
+    img.className = "photo";
+    img.style.animation = animations[imgIndex % animations.length] + " 40s linear forwards";
+    gallery.appendChild(img);
+    imgIndex++;
+}
+
+/* NO button escape */
+function moveNo(){
+    const x = (Math.random() * 300) - 150;
+    const y = (Math.random() * 200) - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); });
+
+/* YES CLICK */
+yesBtn.onclick = ()=>{
+    document.getElementById("questionBox").style.display="none";
+    proposal.style.display="flex";
+    createFirework();
+};
+
+/* FIREWORK (minimal) */
+function createFirework(){
+    const f = document.createElement("div");
+    f.className = "firework";
+    f.style.left = "50%";
+    f.style.top = "50%";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),2000);
+}
+</script>
+
+</body>
+</html>
