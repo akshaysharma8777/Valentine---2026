@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Valentine ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+    overflow-x: hidden;
+    text-align: center;
+}
+
+/* START SCREEN */
+#startScreen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    color: white;
+    font-size: 22px;
+}
+
+#startScreen button {
+    margin-top: 20px;
+    padding: 14px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    color: #ff3b6f;
+    cursor: pointer;
+}
+
+/* HEADER */
+header {
+    padding: 40px 20px;
+    color: white;
+    text-shadow: 2px 2px 6px black;
+}
+
+header h1 {
+    font-size: 32px;
+}
+
+/* MESSAGE */
+#message {
+    background: rgba(255,255,255,0.85);
+    margin: 20px;
+    padding: 25px;
+    border-radius: 20px;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* GALLERY */
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+#gallery img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    transition: transform 0.4s;
+}
+
+#gallery img:hover {
+    transform: scale(1.05);
+}
+
+/* FOOTER */
+footer {
+    padding: 30px;
+    color: white;
+    font-size: 20px;
+    text-shadow: 1px 1px 5px black;
+}
+
+/* HEARTS */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    color: rgba(255,0,100,0.7);
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- START SCREEN -->
+<div id="startScreen">
+    <div>Tap to open your surprise ❤️</div>
+    <button onclick="startExperience()">Enter</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="music" src="music1.mp3" loop></audio>
+
+<header>
+    <h1>Thank You for Being My Valentine / My Life ❤️</h1>
+    <p>To the woman who makes my life beautiful</p>
+</header>
+
+<div id="message">
+    Janna ❤️  
+    <br><br>
+    When you said YES, it meant more to me than just a word.  
+    It meant choosing me again, even after all the days we’ve lived,  
+    all the struggles we’ve faced, and all the dreams we share.
+    <br><br>
+    You are my partner, my home, my strength, and my peace.  
+    Being your Valentine is not just for one day —  
+    it’s what I want to be for you every day of my life.
+    <br><br>
+    Thank you for loving me,  
+    for standing by me,  
+    and for making our life so meaningful.
+    <br><br>
+    Always yours,  
+    Motu ❤️
+</div>
+
+<div id="gallery">
+    <img src="photo1.jpeg">
+    <img src="photo2.jpeg">
+    <img src="photo3.jpeg">
+    <img src="photo4.jpeg">
+    <img src="photo5.jpeg">
+</div>
+
+<footer>
+    With all my love, always and forever 💖
+</footer>
+
+<script>
+function startExperience() {
+    document.getElementById("startScreen").style.display = "none";
+    const music = document.getElementById("music");
+    music.play();
+}
+
+/* floating hearts */
+setInterval(()=> {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random()*20 + 10) + "px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}, 500);
+</script>
+
+</body>
+</html>
