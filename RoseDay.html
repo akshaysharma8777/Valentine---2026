@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rose Day For My Love</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #2b0013, #000);
+    color: white;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* START SCREEN */
+#startScreen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, #600018, #000);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#startScreen button {
+    padding: 18px 45px;
+    border-radius: 40px;
+    border: none;
+    font-size: 20px;
+    background: #ffccd5;
+    color: #600018;
+    cursor: pointer;
+}
+
+/* CONTENT */
+#content {
+    display: none;
+    height: 100vh;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 36px;
+    text-shadow: 0 0 15px rgba(255,150,180,0.9);
+}
+
+/* ORBIT CONTAINER (BIGGER) */
+#orbitContainer {
+    position: relative;
+    width: 90vw;
+    height: 90vw;
+    max-width: 420px;
+    max-height: 420px;
+    margin: 20px auto;
+}
+
+/* ROTATING ORBIT */
+#orbit {
+    position: absolute;
+    inset: 0;
+    animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* CENTER PHOTO (BIGGER) */
+#centerPhoto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #ff9bb3;
+    box-shadow: 0 0 30px rgba(255,120,160,0.9);
+}
+
+/* ROSES (BIGGER) */
+.rose {
+    position: absolute;
+    font-size: 55px;
+    cursor: pointer;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+    100% { transform: translateY(0); }
+}
+
+/* COLORS */
+.red    { color: #ff0033; }
+.white  { color: #ffffff; text-shadow: 0 0 6px black; }
+.pink   { color: #ff66a3; }
+.yellow { color: #ffd700; }
+.orange { color: #ff8c00; }
+
+/* MEANING BOX (BIGGER) */
+#meaningBox {
+    background: rgba(255,255,255,0.95);
+    color: #5a0020;
+    padding: 22px;
+    border-radius: 25px;
+    max-width: 85%;
+    margin: 15px auto;
+    font-size: 18px;
+    line-height: 1.7;
+    display: none;
+    box-shadow: 0 0 25px rgba(255,100,150,0.7);
+}
+
+/* PETALS */
+.petal {
+    position: fixed;
+    top: -30px;
+    font-size: 24px;
+    animation: fall linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes fall {
+    from { transform: translateY(0) rotate(0deg); opacity:1; }
+    to   { transform: translateY(120vh) rotate(360deg); opacity:0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- START -->
+<div id="startScreen">
+    <h2 style="font-size:28px;">🌹 Happy Rose Day 🌹</h2>
+    <p style="font-size:18px;">Touch the roses… each one is you</p>
+    <button onclick="startLove()">Enter My Heart ❤️</button>
+</div>
+
+<audio id="music" src="music2.mp3" loop></audio>
+
+<div id="content">
+    <h1>For My Beautiful Wife 🌹</h1>
+
+    <div id="orbitContainer">
+        <img id="centerPhoto" src="photo1.jpeg">
+
+        <div id="orbit">
+            <div class="rose red" style="top:0; left:50%;" onclick="showMeaning('red')">🌹</div>
+            <div class="rose white" style="top:25%; right:0;" onclick="showMeaning('white')">🌸</div>
+            <div class="rose pink" style="bottom:0; left:60%;" onclick="showMeaning('pink')">🌺</div>
+            <div class="rose yellow" style="bottom:0; left:20%;" onclick="showMeaning('yellow')">🌼</div>
+            <div class="rose orange" style="top:25%; left:0;" onclick="showMeaning('orange')">🌷</div>
+        </div>
+    </div>
+
+    <div id="meaningBox"></div>
+</div>
+
+<script>
+const photos = ["photo1.jpeg","photo2.jpeg","photo3.jpeg","photo4.jpeg","photo5.jpeg"];
+let photoIndex = 0;
+
+function startLove() {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("content").style.display = "block";
+    document.getElementById("music").play();
+    startPetals();
+    startPhotoRotation();
+}
+
+function startPhotoRotation() {
+    setInterval(() => {
+        photoIndex = (photoIndex + 1) % photos.length;
+        document.getElementById("centerPhoto").src = photos[photoIndex];
+    }, 4000);
+}
+
+function showMeaning(color) {
+    const box = document.getElementById("meaningBox");
+    box.style.display = "block";
+
+    const meanings = {
+        red: "Red Rose ❤️ — Your love is the fire that keeps my heart alive.",
+        white: "White Rose 🤍 — Your soul is pure, calm, and beautiful.",
+        pink: "Pink Rose 💗 — Your kindness and care make my world gentle.",
+        yellow: "Yellow Rose 💛 — Your smile is my daily sunshine.",
+        orange: "Orange Rose 🧡 — Your strength gives me courage every day."
+    };
+
+    box.innerText = meanings[color];
+}
+
+/* Falling petals */
+function startPetals() {
+    setInterval(() => {
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.innerHTML = "🌸";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = (Math.random()*5 + 6) + "s";
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),10000);
+    }, 800);
+}
+</script>
+
+</body>
+</html>
