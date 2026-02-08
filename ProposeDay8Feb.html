@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Only For You 💖 (DEV)</title>
+<title>Only For You 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -13,6 +13,17 @@ body {
     color:white;
     overflow:hidden;
     text-align:center;
+}
+
+#lock{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:black;
+    font-size:24px;
+    padding:20px;
 }
 
 /* START */
@@ -194,15 +205,6 @@ function begin(){
     hearts();
 }
 
-function tease() {
-    alert("Laaj aana 😏 The only answer allowed is YES ❤️");
-}
-
-function goToWheel(){
-    document.getElementById("proposal").style.display="none";
-    document.getElementById("wheelBox").style.display="block";
-}
-
 let spun=false;
 function spin(){
     if(spun) return;
@@ -216,6 +218,18 @@ function spin(){
     },4000);
 }
 
+
+function tease() {
+    alert("Laaj aana 😏 The only answer allowed is YES ❤️");
+}
+
+function goToWheel(){
+    document.getElementById("proposal").style.display="none";
+    document.getElementById("wheelBox").style.display="block";
+}
+
+
+
 function hearts(){
     setInterval(()=>{
         const h=document.createElement("div");
@@ -227,6 +241,9 @@ function hearts(){
         setTimeout(()=>h.remove(),9000);
     },600);
 }
+
+
+
 </script>
 
 </body>
