@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Only For You 💖 (DEV)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin:0;
+    font-family:"Segoe UI",sans-serif;
+    background: radial-gradient(circle at top, #3b0018, #000);
+    color:white;
+    overflow:hidden;
+    text-align:center;
+}
+
+/* START */
+#start {
+    position:fixed;
+    inset:0;
+    background: radial-gradient(circle, #6b0026, #000);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+#start button {
+    padding:18px 45px;
+    border-radius:40px;
+    border:none;
+    font-size:20px;
+    background:#ffb3c6;
+    color:#6b0026;
+}
+
+/* CONTENT */
+#content { display:none; padding-top:40px; }
+
+h1 { font-size:34px; text-shadow:0 0 20px pink; }
+
+/* BOX */
+.box {
+    background:white;
+    color:#5a0020;
+    margin:20px auto;
+    padding:25px;
+    border-radius:30px;
+    max-width:90%;
+    font-size:20px;
+    line-height:1.6;
+}
+
+/* BUTTON */
+button {
+    padding:14px 30px;
+    border-radius:30px;
+    border:none;
+    font-size:18px;
+    margin-top:15px;
+    background:#ff4d6d;
+    color:white;
+}
+
+/* PHOTOS */
+#photos {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+#photos img {
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 0 15px rgba(255,100,150,0.7);
+}
+
+/* WHEEL */
+#wheelBox { display:none; }
+
+#wheel {
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    margin:20px auto;
+    border:8px solid #ff4d6d;
+    background: conic-gradient(
+        #ffb3c6 0deg 90deg,
+        #ffd6e0 90deg 180deg,
+        #ffc2d1 180deg 270deg,
+        #ff8fab 270deg 360deg
+    );
+    transition: transform 4s ease-out;
+}
+
+#pointer {
+    width:0;
+    height:0;
+    border-left:15px solid transparent;
+    border-right:15px solid transparent;
+    border-bottom:25px solid #ff4d6d;
+    margin:0 auto;
+}
+
+/* FINAL */
+#final { display:none; font-size:26px; margin-top:30px; }
+
+/* HEARTS */
+.heart {
+    position:fixed;
+    top:-20px;
+    font-size:22px;
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    to { transform: translateY(120vh) rotate(360deg); opacity:0; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="start">
+    <h2>💍 Happy Propose Day 💍</h2>
+    <p>Tap to open my heart</p>
+    <button onclick="begin()">Open 💖</button>
+</div>
+
+<audio id="music" src="music3.mp3" loop></audio>
+
+<div id="content">
+    <h1>To My Forever Love 💖</h1>
+
+    <div class="box" id="proposal">
+        My love ❤️  
+        <br><br>
+        Life with you is my greatest blessing.  
+        Every smile of yours feels like home,  
+        every struggle feels lighter when you are beside me.
+        <br><br>
+        I don’t want you only for today…  
+        I want you for every tomorrow.  
+        For every sunrise.  
+        For every dream.
+        <br><br>
+        💍 Will you be mine forever?
+        <br><br>
+        <button onclick="goToWheel()">YES ❤️</button>
+         <button class="choiceBtn" id="noBtn" onclick="tease()">No 😜</button>
+    </div>
+
+    <div id="photos">
+        <img src="photo7.jpeg">
+        <img src="photo9.jpeg">
+        <img src="photo12.jpeg">
+        <img src="photo8.jpeg">
+    </div>
+
+    <div class="box" id="wheelBox">
+        🎡 You have made the right choice.. 
+        You get rewarded for your choice. 
+        Spin the Wheel to see your prize!
+        <br><br>
+        Spin to win your prize 💖  
+        <div id="pointer"></div>
+        <div id="wheel"></div>
+        <button onclick="spin()">SPIN 🎡</button>
+    </div>
+
+    <div id="final">
+        💰 CONGRATULATIONS 💰  
+        <br><br>
+        You won ₹200 Prize Money  
+        <br><br>
+        Because loving you is priceless 💖  
+    </div>
+</div>
+
+<script>
+/* ONE TIME LOCK */
+if(localStorage.getItem("played")){
+    document.body.innerHTML = document.getElementById("locked").outerHTML;
+}
+
+function begin(){
+    document.getElementById("start").style.display="none";
+    document.getElementById("content").style.display="block";
+    document.getElementById("music").play();
+    hearts();
+}
+
+function tease() {
+    alert("Laaj aana 😏 The only answer allowed is YES ❤️");
+}
+
+function goToWheel(){
+    document.getElementById("proposal").style.display="none";
+    document.getElementById("wheelBox").style.display="block";
+}
+
+let spun=false;
+function spin(){
+    if(spun) return;
+    spun=true;
+    const wheel=document.getElementById("wheel");
+    const deg=360*5 + Math.floor(Math.random()*360);
+    wheel.style.transform="rotate("+deg+"deg)";
+    setTimeout(()=>{
+        document.getElementById("wheelBox").style.display="none";
+        document.getElementById("final").style.display="block";
+    },4000);
+}
+
+function hearts(){
+    setInterval(()=>{
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💖";
+        h.style.left=Math.random()*100+"vw";
+        h.style.animationDuration=(Math.random()*4+5)+"s";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),9000);
+    },600);
+}
+</script>
+
+</body>
+</html>
